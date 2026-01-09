@@ -16,4 +16,10 @@ void handle_input(f32 dt) {
     move_rect(&Entities.player, can_colide_with_paddle, 2, PADDLE_SPEED, DOWN,
               dt);
   }
+
+  if (Entities.enemy.y > Entities.player.y - 5)
+    move_rect(&Entities.enemy, can_colide_with_paddle, 2, PADDLE_SPEED, UP, dt);
+  else if (Entities.enemy.y < Entities.player.y + 5)
+    move_rect(&Entities.enemy, can_colide_with_paddle, 2, PADDLE_SPEED, DOWN,
+              dt);
 }
