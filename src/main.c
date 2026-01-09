@@ -1,3 +1,6 @@
+#include <SDL3/SDL_oldnames.h>
+#include <SDL3/SDL_pixels.h>
+#include <SDL3/SDL_render.h>
 #define SDL_MAIN_USE_CALLBACKS 1
 
 #include <SDL3/SDL.h>
@@ -9,7 +12,7 @@ static SDL_Window* window = NULL;
 static SDL_Renderer* renderer = NULL;
 
 /* Initialization */
-SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
+SDL_AppResult SDL_AppInit(void** appstate, i32 argc, char* argv[]) {
   SDL_SetAppMetadata(APP_NAME, "0.1", "com.be.pong");
 
   if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -40,18 +43,24 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
 
 /* Tick */
 SDL_AppResult SDL_AppIterate(void* appstate) {
-  // Current frame
-  const double now = ((double)SDL_GetTicks()) / 1000.0;
+    // We don't have circles natively in SDL3, so we run the rectangular ball
+  SDL_FRect player, enemy, ball;
+  player.x = 10, player.y = 10, player.w = 20, player.h = 100;
+  enemy.x = 500, enemy.y = 30, enemy.w = 20, enemy.h = 100;
+  ball.x = 300, ball.y = 30, ball.w = 10, ball.h = 10;
 
-  const float red = (float)(0.5 + 0.5 * SDL_sin(now));
-  const float green = (float)(0.5 + 0.5 * SDL_sin(now + SDL_PI_D * 2 / 3));
-  const float blue = (float)(0.5 + 0.5 * SDL_sin(now + SDL_PI_D * 4 / 3));
-
-  SDL_SetRenderDrawColorFloat(renderer, red, green, blue,
-                              SDL_ALPHA_OPAQUE_FLOAT);
+  // Black background
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE_FLOAT);
 
   // Clean then draw
   SDL_RenderClear(renderer);
+
+  // White rects
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+  SDL_RenderFillRect(renderer, &player);
+  SDL_RenderFillRect(renderer, &enemy);
+  SDL_RenderFillRect(renderer, &ball);
+
   SDL_RenderPresent(renderer);
 
   return SDL_APP_CONTINUE;
