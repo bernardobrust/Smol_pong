@@ -12,23 +12,21 @@
     sza = size of cs
     speed = e's speed
     dir = it's up or down
+    dt = delta time
 */
-void move_rect(SDL_FRect* e, const SDL_FRect* cs[], u32 sza, const u32 speed,
-               const enum Direction dir) {
-  i32 delta = speed;
-  bool coliding;
+void move_rect(SDL_FRect* e, const SDL_FRect* cs[], u32 sza, f32 speed,
+               const enum Direction dir, f32 dt) {
+  f32 delta = speed * dt;
+  e->y += dir == UP ? -delta : delta;
 
   for (u32 i = 0; i < sza; ++i) {
     const SDL_FRect* c = cs[i];
-    coliding = check_colision_rects(e, c);
-    // Becomes 0 under any colision
-    delta *= !coliding;
+    if (check_colision_rects(e, c)) {
+      if (dir == UP) {
+        e->y = c->y + c->h;
+      } else {
+        e->y = c->y - e->h;
+      }
+    }
   }
-
-  e->y += dir == UP ? -delta : delta;
-  // Fallback
-  if (delta == 0 && dir == UP)
-    e->y += speed;
-  else if (delta == 0)
-    e->y -= speed;
 }

@@ -6,5 +6,5 @@
 
 enum Direction { UP, DOWN };
 
-void move_rect(SDL_FRect* e, const SDL_FRect* cs[], u32 sza, const u32 speed,
-               const enum Direction dir);
+void move_rect(SDL_FRect* e, const SDL_FRect* cs[], u32 sza, f32 speed,
+               const enum Direction dir, f32 dt);
