@@ -6,6 +6,7 @@
 #define HEIGHT 480
 
 #define PADDLE_SPEED 300.0f
+#define BALL_SPEED 140.0f
 
 #define i32 int
 #define u8 unsigned short

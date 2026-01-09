@@ -4,6 +4,7 @@
 #include <SDL3/SDL_main.h>
 
 #include "macros.h"
+#include "move.h"
 
 extern SDL_Window* window;
 extern SDL_Renderer* renderer;
@@ -18,4 +19,9 @@ struct G_Entities {
 extern struct G_Entities Entities;
 
 extern const SDL_FRect* can_colide_with_paddle[];
+extern const SDL_FRect* can_colide_with_ball[];
 extern const SDL_FRect* entity_iterator;
+
+extern enum Direction ball_move_x;
+extern enum Direction ball_move_y;
+extern f32 s_acc;

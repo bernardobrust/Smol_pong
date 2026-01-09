@@ -1,3 +1,4 @@
+#include "move.h"
 #define SDL_MAIN_USE_CALLBACKS 1
 
 #include <SDL3/SDL.h>
@@ -7,6 +8,7 @@
 #include "input.h"
 #include "macros.h"
 #include "render.h"
+#include "tick.h"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -23,7 +25,14 @@ struct G_Entities Entities = {{10, 20, 20, 100},
 
 const SDL_FRect* can_colide_with_paddle[] = {&Entities.barrier_up,
                                              &Entities.barrier_down};
+const SDL_FRect* can_colide_with_ball[] = {&Entities.barrier_up,
+                                           &Entities.barrier_down,
+                                           &Entities.player, &Entities.enemy};
 const SDL_FRect* entity_iterator = &Entities.player;
+
+enum Direction ball_move_x = LEFT;
+enum Direction ball_move_y = UP;
+f32 s_acc = 0;
 
 /* Initialization */
 SDL_AppResult SDL_AppInit(void** appstate, i32 argc, char* argv[]) {
@@ -62,6 +71,7 @@ SDL_AppResult SDL_AppIterate(void* appstate) {
   last_time = current_time;
 
   handle_input(dt);
+  tick(dt);  // Continuous logic
   render();
 
   return SDL_APP_CONTINUE;
