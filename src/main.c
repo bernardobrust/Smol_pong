@@ -1,15 +1,27 @@
-#include <SDL3/SDL_oldnames.h>
-#include <SDL3/SDL_pixels.h>
-#include <SDL3/SDL_render.h>
+#include <SDL3/SDL_rect.h>
 #define SDL_MAIN_USE_CALLBACKS 1
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
 #include "macros.h"
+#include "move.h"
 
 static SDL_Window* window = NULL;
 static SDL_Renderer* renderer = NULL;
+
+// ! Global shared mutable state
+static struct Entities {
+  SDL_FRect player, enemy, ball, barrier_up, barrier_down;
+} Entities = {{10, 20, 20, 100},
+              {500, 30, 20, 100},
+              {300, 30, 10, 10},
+              {0, 0, WIDTH, 10},
+              {0, HEIGHT - 10, WIDTH, 10}};
+
+static const SDL_FRect* can_colide_with_paddle[] = {&Entities.barrier_up,
+                                              &Entities.barrier_down};
+static const SDL_FRect *entity_iterator = &Entities.player;
 
 /* Initialization */
 SDL_AppResult SDL_AppInit(void** appstate, i32 argc, char* argv[]) {
@@ -33,9 +45,24 @@ SDL_AppResult SDL_AppInit(void** appstate, i32 argc, char* argv[]) {
 
 /* General input handling */
 SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
-  // Closing the app
   if (event->type == SDL_EVENT_QUIT) {
     return SDL_APP_SUCCESS;
+  }
+
+  if (event->type == SDL_EVENT_KEY_DOWN) {
+    SDL_Scancode key = event->key.scancode;
+
+    if (key == SDL_SCANCODE_W)
+      move_rect(
+          &Entities.player, can_colide_with_paddle,
+          sizeof(can_colide_with_paddle) / sizeof(can_colide_with_paddle[0]),
+          PADDLE_SPEED, UP);
+
+    if (key == SDL_SCANCODE_S)
+      move_rect(
+          &Entities.player, can_colide_with_paddle,
+          sizeof(can_colide_with_paddle) / sizeof(can_colide_with_paddle[0]),
+          PADDLE_SPEED, DOWN);
   }
 
   return SDL_APP_CONTINUE;
@@ -43,12 +70,6 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
 
 /* Tick */
 SDL_AppResult SDL_AppIterate(void* appstate) {
-    // We don't have circles natively in SDL3, so we run the rectangular ball
-  SDL_FRect player, enemy, ball;
-  player.x = 10, player.y = 10, player.w = 20, player.h = 100;
-  enemy.x = 500, enemy.y = 30, enemy.w = 20, enemy.h = 100;
-  ball.x = 300, ball.y = 30, ball.w = 10, ball.h = 10;
-
   // Black background
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE_FLOAT);
 
@@ -57,9 +78,9 @@ SDL_AppResult SDL_AppIterate(void* appstate) {
 
   // White rects
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-  SDL_RenderFillRect(renderer, &player);
-  SDL_RenderFillRect(renderer, &enemy);
-  SDL_RenderFillRect(renderer, &ball);
+  for (u32 i = 0; i < sizeof(Entities)/sizeof(SDL_FRect); ++i) {
+    SDL_RenderFillRect(renderer, &entity_iterator[i]);
+  }
 
   SDL_RenderPresent(renderer);
 

@@ -1,5 +1,7 @@
-project('Pong', 'c', default_options: ['wrning_level=everything'])
+project('Pong', 'c', default_options: ['warning_level=everything'])
 
+incdir = include_directories('src', 'src/core')
+src = ['src/main.c', 'src/core/move.c']
 sdl3_dep = dependency('sdl3')
 
-executable('pong', 'src/main.c', dependencies: sdl3_dep)
+executable('pong', src, include_directories : incdir, dependencies: sdl3_dep)
