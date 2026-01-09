@@ -3,27 +3,26 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
+#include "global.h"
+#include "input.h"
 #include "macros.h"
-#include "move.h"
 
-static SDL_Window* window = NULL;
-static SDL_Renderer* renderer = NULL;
-static u64 perf_freq;
-static u64 last_time = 0;
-static f32 dt = 0.0f;
+SDL_Window* window = NULL;
+SDL_Renderer* renderer = NULL;
+u64 perf_freq;
+u64 last_time = 0;
+f32 dt = 0.0f;
 
 // ! Global shared mutable state
-static struct G_Entities {
-  SDL_FRect player, enemy, ball, barrier_up, barrier_down;
-} Entities = {{10, 20, 20, 100},
-              {500, 30, 20, 100},
-              {300, 30, 10, 10},
-              {0, 0, WIDTH, 10},
-              {0, HEIGHT - 10, WIDTH, 10}};
+struct G_Entities Entities = {{10, 20, 20, 100},
+                              {500, 30, 20, 100},
+                              {300, 30, 10, 10},
+                              {0, 0, WIDTH, 10},
+                              {0, HEIGHT - 10, WIDTH, 10}};
 
-static const SDL_FRect* can_colide_with_paddle[] = {&Entities.barrier_up,
-                                                    &Entities.barrier_down};
-static const SDL_FRect* entity_iterator = &Entities.player;
+const SDL_FRect* can_colide_with_paddle[] = {&Entities.barrier_up,
+                                             &Entities.barrier_down};
+const SDL_FRect* entity_iterator = &Entities.player;
 
 /* Initialization */
 SDL_AppResult SDL_AppInit(void** appstate, i32 argc, char* argv[]) {
@@ -50,8 +49,7 @@ SDL_AppResult SDL_AppInit(void** appstate, i32 argc, char* argv[]) {
 
 /* Event handling */
 SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
-  if (event->type == SDL_EVENT_QUIT)
-    return SDL_APP_SUCCESS;
+  if (event->type == SDL_EVENT_QUIT) return SDL_APP_SUCCESS;
 
   return SDL_APP_CONTINUE;
 }
@@ -62,19 +60,7 @@ SDL_AppResult SDL_AppIterate(void* appstate) {
   dt = (f32)((current_time - last_time) / (f32)perf_freq);
   last_time = current_time;
 
-  const _Bool* keyboard_state = SDL_GetKeyboardState(NULL);
-  if (keyboard_state[SDL_SCANCODE_W]) {
-    move_rect(
-        &Entities.player, can_colide_with_paddle,
-        sizeof(can_colide_with_paddle) / sizeof(can_colide_with_paddle[0]),
-        PADDLE_SPEED, UP, dt);
-  }
-  if (keyboard_state[SDL_SCANCODE_S]) {
-    move_rect(
-        &Entities.player, can_colide_with_paddle,
-        sizeof(can_colide_with_paddle) / sizeof(can_colide_with_paddle[0]),
-        PADDLE_SPEED, DOWN, dt);
-  }
+  handle_input(dt);
 
   // Black background
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE_FLOAT);
