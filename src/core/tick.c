@@ -9,9 +9,9 @@ void tick(f32 dt) {
                 &ball_move_x, &ball_move_y, dt))
     s_acc += 6;
 
-  if (Entities.enemy.y > Entities.ball.y - 5)
+  const i32 offset = Entities.enemy.h / 2;
+  if (Entities.enemy.y + offset > Entities.ball.y)
     move_rect(&Entities.enemy, can_colide_with_paddle, PADDLE_SPEED, UP, dt);
-  else if (Entities.enemy.y < Entities.ball.y + 5)
-    move_rect(&Entities.enemy, can_colide_with_paddle, PADDLE_SPEED, DOWN,
-              dt);
+  else if (Entities.enemy.y - offset < Entities.ball.y)
+    move_rect(&Entities.enemy, can_colide_with_paddle, PADDLE_SPEED, DOWN, dt);
 }

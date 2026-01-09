@@ -1,4 +1,3 @@
-#include "move.h"
 #define SDL_MAIN_USE_CALLBACKS 1
 
 #include <SDL3/SDL.h>
@@ -16,10 +15,12 @@ u64 perf_freq;
 u64 last_time = 0;
 f32 dt = 0.0f;
 
+const i32 middle = (i32)(HEIGHT / 2);
+
 // ! Global shared mutable state
-struct G_Entities Entities = {{10, 20, 20, 100},
-                              {500, 30, 20, 100},
-                              {300, 30, 10, 10},
+struct G_Entities Entities = {{10, middle - 50, 20, 100},
+                              {WIDTH - 30, middle - 50, 20, 100},
+                              {300, middle - 5, 10, 10},
                               {0, 0, WIDTH, 10},
                               {0, HEIGHT - 10, WIDTH, 10}};
 

@@ -14,9 +14,10 @@ void render() {
 
   // White rects
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-  for (u32 i = 0; i < sizeof(Entities) / sizeof(SDL_FRect); ++i) {
+  // ? It's still a calculated value, not hardcoded because we still have the
+  // ? score to implement
+  for (u8 i = 0; i < sizeof(Entities) / sizeof(SDL_FRect); ++i)
     SDL_RenderFillRect(renderer, &entity_iterator[i]);
-  }
 
   SDL_RenderPresent(renderer);
 }

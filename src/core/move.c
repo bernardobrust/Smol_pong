@@ -10,9 +10,8 @@
 /*
     e = element to move (paddle)
     cs = list of entities it could colide with
-    sza = size of cs
     speed = e's speed
-    dir = it's up or down
+    dir = up or down
     dt = delta time
 */
 void move_rect(SDL_FRect* e, const SDL_FRect* cs[] /* 2 */, f32 speed,
@@ -36,7 +35,6 @@ void move_rect(SDL_FRect* e, const SDL_FRect* cs[] /* 2 */, f32 speed,
 /*
     e = element to move (ball)
     cs = list of entities it could colide with
-    sza = size of cs
     speed = e's speed
     dir_x = left or right (mutates)
     dir_y = up or down (mutates)
