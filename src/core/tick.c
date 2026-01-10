@@ -13,10 +13,9 @@
 */
 static void move_rect(SDL_FRect* e, const SDL_FRect* cs[] /* 2 */, f32 speed,
                       const enum Direction dir, f32 dt) {
-  f32 delta = speed * dt;
-  e->y += (f32)dir * delta;
+  e->y += (f32)dir * (speed * dt);
 
-  for (u32 i = 0; i < 2; ++i) {
+  for (u8 i = 0; i < 2; ++i) {
     const SDL_FRect* c = cs[i];
     if (check_colision_rects(e, c)) {
       if (dir == UP)
@@ -44,7 +43,7 @@ static bool move_ball(SDL_FRect* e, const SDL_FRect* cs[] /* 4 */, f32 speed,
   e->x += (f32)*dir_x * delta;
   e->y += (f32)*dir_y * delta;
 
-  for (u32 i = 0; i < 4; ++i) {
+  for (u8 i = 0; i < 4; ++i) {
     const SDL_FRect* c = cs[i];
     if (check_colision_rects(e, c)) {
       if (c->w > c->h) {
