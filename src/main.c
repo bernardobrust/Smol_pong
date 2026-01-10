@@ -15,7 +15,7 @@ u64 perf_freq;
 u64 last_time = 0;
 f32 dt = 0.0f;
 
-const i32 middle = (i32)(HEIGHT / 2);
+const u8 middle = (u8)(HEIGHT / 2);
 
 // ! Global shared mutable state
 struct G_Entities Entities = {
@@ -31,12 +31,8 @@ const SDL_FRect* can_colide_with_ball[] = {&Entities.barrier_up,
                                            &Entities.player, &Entities.enemy};
 const SDL_FRect* entity_iterator = &Entities.player;
 
-enum Direction ball_move_x = LEFT;
-enum Direction ball_move_y = UP;
-f32 s_acc = 0;
-
-f32 p_score = 0, e_score = 0;
-
+enum Direction ball_move_x = LEFT, ball_move_y = UP;
+u8 s_acc = 0, p_score = 0, e_score = 0;
 bool paused = true;
 
 /* Initialization */

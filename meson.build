@@ -16,12 +16,23 @@ project('Pong', 'c',
 cc = meson.get_compiler('c')
 
 if cc.get_argument_syntax() == 'gcc'
-  add_project_link_arguments('-Wl,--gc-sections,--build-id=none', language: 'c')
+  add_project_link_arguments('-Wl,--gc-sections,--build-id=none,--no-export-dynamic', language: 'c')
 elif cc.get_argument_syntax() == 'msvc'
   add_project_link_arguments('/OPT:REF', language: 'c')
 endif
 
-add_project_arguments('-ffunction-sections', '-fdata-sections', '-nostdlib', '-DNDEBUG', language: 'c')
+add_project_arguments(
+  '-ffunction-sections',
+  '-fdata-sections',
+  '-nostdlib',
+  '-DNDEBUG',
+  '-fno-ident',
+  '-fno-unwind-tables',
+  '-fno-asynchronous-unwind-tables',
+  '-fno-stack-protector',
+  '-fno-math-errno',
+  language: 'c'
+)
 
 incdir = include_directories('src', 'src/core')
 src = ['src/main.c', 'src/core/render.c', 'src/core/tick.c']

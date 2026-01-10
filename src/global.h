@@ -11,7 +11,7 @@ extern u64 perf_freq;
 extern u64 last_time;
 extern f32 dt;
 
-extern const i32 middle;
+extern const u8 middle;
 
 // ! Global mutable state, handle with care
 struct G_Entities {
@@ -26,18 +26,8 @@ extern const SDL_FRect* can_colide_with_ball[];
 // ? We can iterate the entity struct like an array with this
 extern const SDL_FRect* entity_iterator;
 
-extern f32 p_score, e_score;
+enum Direction { UP = -1, DOWN = 1, LEFT = -1, RIGHT = 1 };
 
+extern enum Direction ball_move_x, ball_move_y;
+extern u8 s_acc, p_score, e_score;
 extern bool paused;
-
-enum Direction {
-  UP = -1,
-  DOWN = 1,
-  LEFT = -1,
-  RIGHT = 1
-};
-
-extern enum Direction ball_move_x;
-extern enum Direction ball_move_y;
-// ? Ball speed acumulation
-extern f32 s_acc;
