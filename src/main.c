@@ -22,7 +22,9 @@ struct G_Entities Entities = {{10, middle - 50, 20, 100},
                               {WIDTH - 30, middle - 50, 20, 100},
                               {300, middle - 5, 10, 10},
                               {0, 0, WIDTH, 10},
-                              {0, HEIGHT - 10, WIDTH, 10}};
+                              {0, HEIGHT - 10, WIDTH, 10},
+                            {0, 0, 0, HEIGHT},
+                          {WIDTH, 0, 0, HEIGHT}};
 
 const SDL_FRect* can_colide_with_paddle[] = {&Entities.barrier_up,
                                              &Entities.barrier_down};
@@ -34,6 +36,8 @@ const SDL_FRect* entity_iterator = &Entities.player;
 enum Direction ball_move_x = LEFT;
 enum Direction ball_move_y = UP;
 f32 s_acc = 0;
+
+f32 p_score = 0, e_score = 0;
 
 /* Initialization */
 SDL_AppResult SDL_AppInit(void** appstate, i32 argc, char* argv[]) {

@@ -8,6 +8,8 @@
 #define PADDLE_SPEED 300.0f
 #define BALL_SPEED 140.0f
 
+#define MATCH_POINT 3
+
 #define i32 int
 #define u8 unsigned short
 #define u32 unsigned
