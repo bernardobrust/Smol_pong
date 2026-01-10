@@ -7,7 +7,7 @@
 
 void render() {
   // Black background
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE_FLOAT);
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 
   // Clean then draw
   SDL_RenderClear(renderer);

@@ -2,7 +2,6 @@
 #include "input.h"
 
 #include <SDL3/SDL.h>
-#include <SDL3/SDL_scancode.h>
 
 #include "global.h"
 #include "macros.h"
@@ -13,9 +12,9 @@ void handle_input(f32 dt) {
 
   const _Bool* keyboard_state = SDL_GetKeyboardState(NULL);
 
-  if (keyboard_state[SDL_SCANCODE_W] || keyboard_state[SDL_SCANCODE_UP])
+  if (keyboard_state[SDL_SCANCODE_W])
     move_rect(&Entities.player, can_colide_with_paddle, PADDLE_SPEED, UP, dt);
-  if (keyboard_state[SDL_SCANCODE_S] || keyboard_state[SDL_SCANCODE_DOWN])
+  if (keyboard_state[SDL_SCANCODE_S])
     move_rect(&Entities.player, can_colide_with_paddle, PADDLE_SPEED, DOWN, dt);
 
   // ? Beacuse pause is not a continuous press, we'll handle it there

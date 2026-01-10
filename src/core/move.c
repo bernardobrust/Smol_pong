@@ -1,7 +1,6 @@
 #include "move.h"
 
 #include <SDL3/SDL.h>
-#include <assert.h>
 #include <stdbool.h>
 
 #include "aabb.h"
@@ -16,10 +15,8 @@
 */
 void move_rect(SDL_FRect* e, const SDL_FRect* cs[] /* 2 */, f32 speed,
                const enum Direction dir, f32 dt) {
-  assert(dir == UP || dir == DOWN);
-
   f32 delta = speed * dt;
-  e->y += dir == UP ? -delta : delta;
+  e->y += (f32)dir * delta;
 
   for (u32 i = 0; i < 2; ++i) {
     const SDL_FRect* c = cs[i];
@@ -44,33 +41,28 @@ void move_rect(SDL_FRect* e, const SDL_FRect* cs[] /* 2 */, f32 speed,
 */
 bool move_ball(SDL_FRect* e, const SDL_FRect* cs[] /* 4 */, f32 speed,
                enum Direction* dir_x, enum Direction* dir_y, f32 dt) {
-  assert(*dir_y == UP || *dir_y == DOWN);
-  assert(*dir_x == LEFT || *dir_x == RIGHT);
-
   f32 delta = speed * dt;
 
-  e->x += *dir_x == LEFT ? -delta : delta;
-  e->y += *dir_y == UP ? -delta : delta;
+  e->x += (f32)*dir_x * delta;
+  e->y += (f32)*dir_y * delta;
 
   for (u32 i = 0; i < 4; ++i) {
     const SDL_FRect* c = cs[i];
     if (check_colision_rects(e, c)) {
       if (c->w > c->h) {
-        if (*dir_y == UP) {
+        if (*dir_y == UP)
           e->y = c->y + c->h;
-          *dir_y = DOWN;
-        } else {
+        else
           e->y = c->y - e->h;
-          *dir_y = UP;
-        }
+
+        *dir_y *= -1;
       } else {
-        if (*dir_x == LEFT) {
+        if (*dir_x == LEFT)
           e->x = c->x + c->w;
-          *dir_x = RIGHT;
-        } else {
+        else
           e->x = c->x - e->w;
-          *dir_x = LEFT;
-        }
+
+        *dir_x *= -1;
       }
 
       return true;

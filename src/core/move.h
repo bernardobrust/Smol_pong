@@ -4,7 +4,7 @@
 
 #include "macros.h"
 
-enum Direction { UP, DOWN, LEFT, RIGHT };
+enum Direction { UP = -1, DOWN = 1, LEFT = -1, RIGHT = 1 };
 
 // ? sza defaulted to 2
 void move_rect(SDL_FRect* e, const SDL_FRect* cs[] /* 2 */, f32 speed,

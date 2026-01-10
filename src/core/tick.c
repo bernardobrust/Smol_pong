@@ -1,4 +1,3 @@
-
 #include "tick.h"
 
 #include "global.h"
@@ -9,38 +8,46 @@ void tick(f32 dt) {
   // Do not tick when paused
   if (paused) return;
 
-  if (move_ball(&Entities.ball, can_colide_with_ball, BALL_SPEED + s_acc,
+  // Localization
+  SDL_FRect *ball = &Entities.ball;
+  SDL_FRect *enemy = &Entities.enemy;
+  SDL_FRect *display_e = &Entities.score_display_e;
+  SDL_FRect *display_p = &Entities.score_display_p;
+
+  // Ball movement
+  if (move_ball(ball, can_colide_with_ball, BALL_SPEED + s_acc,
                 &ball_move_x, &ball_move_y, dt))
     s_acc += BALL_SPEED_INCREASE;
 
-  const i32 offset = Entities.enemy.h / 2;
-  if (Entities.enemy.y + offset > Entities.ball.y)
-    move_rect(&Entities.enemy, can_colide_with_paddle, PADDLE_SPEED, UP, dt);
-  else if (Entities.enemy.y - offset < Entities.ball.y)
-    move_rect(&Entities.enemy, can_colide_with_paddle, PADDLE_SPEED, DOWN, dt);
+  // Enemy movement
+  const i32 offset = enemy->h / 2;
+  if (enemy->y + offset > ball->y)
+    move_rect(enemy, can_colide_with_paddle, PADDLE_SPEED, UP, dt);
+  else if (enemy->y - offset < ball->y)
+    move_rect(enemy, can_colide_with_paddle, PADDLE_SPEED, DOWN, dt);
 
-  if (Entities.ball.x <= 0 || Entities.ball.x >= WIDTH) {
-    if (Entities.ball.x <= 0) {
+  // Scoring
+  if (ball->x <= 0 || ball->x >= WIDTH) {
+    if (ball->x <= 0) {
       // Enemy score
       e_score += 1;
-      Entities.score_display_e.w -= 100;
+      display_e->w -= 100;
     } else {
       // Player score
       p_score += 1;
-      Entities.score_display_p.w += 100;
+      display_p->w += 100;
     }
 
-    // This sucks, but it works for now
     if (p_score > MATCH_POINT || e_score > MATCH_POINT) {
       e_score = 0;
-      Entities.score_display_e.w = 0;
+      display_e->w = 0;
       p_score = 0;
-      Entities.score_display_p.w = 0;
+      display_p->w = 0;
     }
 
     // Resetting the ball
-    Entities.ball.x = 300;
-    Entities.ball.y = middle - 5;
+    ball->x = 300;
+    ball->y = middle - 5;
     s_acc = 0;
 
     // Pausing
