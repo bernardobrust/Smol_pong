@@ -16,7 +16,8 @@ extern const i32 middle;
 
 // ! Global mutable state, handle with care
 struct G_Entities {
-  SDL_FRect player, enemy, ball, barrier_up, barrier_down, score_display_p, score_display_e;
+  SDL_FRect player, enemy, ball, barrier_up, barrier_down, score_display_p,
+      score_display_e;
 };
 extern struct G_Entities Entities;
 

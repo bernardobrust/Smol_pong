@@ -6,7 +6,8 @@
 #define HEIGHT 480
 
 #define PADDLE_SPEED 300.0f
-#define BALL_SPEED 140.0f
+#define BALL_SPEED 160.0f
+#define BALL_SPEED_INCREASE 8
 
 #define MATCH_POINT 3
 

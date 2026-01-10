@@ -6,9 +6,7 @@
 
 enum Direction { UP, DOWN, LEFT, RIGHT };
 
-// ? We can hardcode values in this case because we are sure that's what they will always be
-
-// ? sza defaulted to 2 
+// ? sza defaulted to 2
 void move_rect(SDL_FRect* e, const SDL_FRect* cs[] /* 2 */, f32 speed,
                const enum Direction dir, f32 dt);
 

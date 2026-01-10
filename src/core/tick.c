@@ -11,7 +11,7 @@ void tick(f32 dt) {
 
   if (move_ball(&Entities.ball, can_colide_with_ball, BALL_SPEED + s_acc,
                 &ball_move_x, &ball_move_y, dt))
-    s_acc += 6;
+    s_acc += BALL_SPEED_INCREASE;
 
   const i32 offset = Entities.enemy.h / 2;
   if (Entities.enemy.y + offset > Entities.ball.y)
