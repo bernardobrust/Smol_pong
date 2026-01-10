@@ -28,6 +28,8 @@ extern const SDL_FRect* entity_iterator;
 
 extern f32 p_score, e_score;
 
+extern bool paused;
+
 extern enum Direction ball_move_x;
 extern enum Direction ball_move_y;
 // ? Ball speed acumulation

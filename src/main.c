@@ -1,7 +1,11 @@
+#include <SDL3/SDL_events.h>
+#include <SDL3/SDL_init.h>
+#include <SDL3/SDL_keycode.h>
 #define SDL_MAIN_USE_CALLBACKS 1
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <stdbool.h>
 
 #include "global.h"
 #include "input.h"
@@ -39,6 +43,8 @@ f32 s_acc = 0;
 
 f32 p_score = 0, e_score = 0;
 
+bool paused = true;
+
 /* Initialization */
 SDL_AppResult SDL_AppInit(void** appstate, i32 argc, char* argv[]) {
   SDL_SetAppMetadata(APP_NAME, "0.1", "com.be.pong");
@@ -65,6 +71,10 @@ SDL_AppResult SDL_AppInit(void** appstate, i32 argc, char* argv[]) {
 /* Event handling */
 SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
   if (event->type == SDL_EVENT_QUIT) return SDL_APP_SUCCESS;
+  if (event->type == SDL_EVENT_KEY_DOWN && event->key.key == SDLK_ESCAPE) return SDL_APP_SUCCESS;
+
+  // ? We'll handle pause here (discrete)
+  if (event->type == SDL_EVENT_KEY_DOWN && event->key.key == SDLK_SPACE) paused = !paused;
 
   return SDL_APP_CONTINUE;
 }

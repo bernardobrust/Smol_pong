@@ -1,3 +1,4 @@
+
 #include "tick.h"
 
 #include "global.h"
@@ -5,6 +6,9 @@
 #include "move.h"
 
 void tick(f32 dt) {
+  // Do not tick when paused
+  if (paused) return;
+
   if (move_ball(&Entities.ball, can_colide_with_ball, BALL_SPEED + s_acc,
                 &ball_move_x, &ball_move_y, dt))
     s_acc += 6;
@@ -38,5 +42,8 @@ void tick(f32 dt) {
     Entities.ball.x = 300;
     Entities.ball.y = middle - 5;
     s_acc = 0;
+
+    // Pausing
+    paused = true;
   }
 }
