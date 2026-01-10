@@ -4,7 +4,6 @@
 #include <SDL3/SDL_main.h>
 
 #include "macros.h"
-#include "move.h"
 
 extern SDL_Window* window;
 extern SDL_Renderer* renderer;
@@ -30,6 +29,13 @@ extern const SDL_FRect* entity_iterator;
 extern f32 p_score, e_score;
 
 extern bool paused;
+
+enum Direction {
+  UP = -1,
+  DOWN = 1,
+  LEFT = -1,
+  RIGHT = 1
+};
 
 extern enum Direction ball_move_x;
 extern enum Direction ball_move_y;

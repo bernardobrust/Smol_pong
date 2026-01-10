@@ -5,7 +5,6 @@
 #include <stdbool.h>
 
 #include "global.h"
-#include "input.h"
 #include "macros.h"
 #include "render.h"
 #include "tick.h"
