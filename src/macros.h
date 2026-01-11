@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 #define APP_NAME "Pong"
 
 #define WIDTH 640
@@ -11,9 +13,9 @@
 
 #define MATCH_POINT 3
 
-#define i32 int
-#define u8 unsigned short
-#define u32 unsigned
-#define u64 unsigned long
+#define i32 int32_t
+#define u8 uint8_t
+#define u32 uint32_t
+#define u64 uint64_t
 #define f32 float
 #define f64 double
