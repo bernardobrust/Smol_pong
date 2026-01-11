@@ -2,6 +2,8 @@
 
 This is a tiny implementation of the classic game Pong. Like, less than 6.2 kilobytes.
 
+Some things may be wrong here, maybe I missed some optimizations, IDK, don't take this repo too seriously.
+
 ## How tiny?
 
 We're talking a few kilobytes. The binary is small because we're doing some pretty extreme things to get the size down:
